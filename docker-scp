@@ -1,0 +1,7 @@
+#!/bin/bash
+set -euo pipefail
+
+REMOTE_HOST=$1
+IMAGE=$2
+
+docker save "$IMAGE" | bzip2 | pv | ssh -C "$REMOTE_HOST" docker load

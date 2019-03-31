@@ -1,0 +1,8 @@
+#!/bin/bash
+PARENT=$1
+ALL=$(docker images -q)
+for image in $ALL; do
+    if [[ -n "$(docker history $image | grep $PARENT)" ]]; then
+        echo $image
+    fi
+done
