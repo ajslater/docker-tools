@@ -1,4 +1,6 @@
 #!/bin/bash
+# send docker images over ssh to another docker daemon
+# see also docker-pushmi-pullyu
 set -euo pipefail
 
 REMOTE_HOST=$1

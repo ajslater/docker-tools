@@ -1,4 +1,5 @@
 #!/bin/bash
+# determines children of docker image for resolving dep issues
 PARENT=$1
 ALL=$(docker images -q)
 for image in $ALL; do
