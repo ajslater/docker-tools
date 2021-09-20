@@ -2,9 +2,9 @@
 # determines children of docker image for resolving dep issues
 set -euo pipefail
 PARENT=$1
-ALL=$(docker images -q)
+ALL=$(docker image ls -q)
 for image in $ALL; do
-    if docker history "$image" | grep -q "$PARENT"; then
+    if docker image history "$image" | grep -q "$PARENT"; then
         echo "$image"
     fi
 done

@@ -1,0 +1,14 @@
+#!/bin/sh
+# Cleanup dangling docker containers, images, volumes, and networks
+#
+# I use this in place of `docker system prune` because I don't want to remove 
+# all stopped containers I only want to remove stopped containers that have
+# dangling ancestors
+
+docker-container-prune-dangling
+echo Pruning volumes
+docker volume prune --force
+echo Pruning networks
+docker network prune --force
+echo Pruning images
+docker image prune --force
