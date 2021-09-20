@@ -8,7 +8,7 @@
 DANGLING_IMAGES=$(docker image ls --format '{{.ID}}' --filter=dangling=true)
 # echo DANGLING_IMAGES="$DANGLING_IMAGES"
 if [ -z "$DANGLING_IMAGES" ]; then
-  echo "No dangling images."
+  echo "No dangling images. So no containers with dangling ancestor images."
   exit 0
 fi
 for image_id in $DANGLING_IMAGES; do
