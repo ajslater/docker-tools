@@ -1,6 +1,5 @@
 #!/bin/sh
-echo Removing containers made from dangling images
-docker ps -a | tail -n +2 | awk '$2 ~ "^[0-9a-f]+$" {print $1}' | xargs docker rm --volumes
+docker-container-prune-dangling
 echo Pruning volumes
 docker volume prune --force
 echo Pruning networks

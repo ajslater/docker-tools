@@ -1,0 +1,28 @@
+#!/bin/sh
+# Remove stopped containers with dangling (untagged) ancestor images
+#
+# Replaces a simpler but less dockery one liner that might bug with very simple image tags:
+# docker ps -a | tail -n +2 | awk '$2 ~ "^[0-9a-f]+$" {print $1}' | xargs docker rm --volumes
+#
+
+DANGLING_IMAGES=$(docker image ls --format '{{.ID}}' --filter=dangling=true)
+# echo DANGLING_IMAGES="$DANGLING_IMAGES"
+if [ -z "$DANGLING_IMAGES" ]; then
+  echo "No dangling images."
+  exit 0
+fi
+for image_id in $DANGLING_IMAGES; do
+  filters="$filters --filter=ancestor=$image_id"
+done
+# shellcheck disable=SC2086
+DANGLING_CONTAINERS="$(docker container ls --format '{{.ID}}' $filters)"
+# echo DANGLING_CONTAINERS="$DANGLING_CONTAINERS"
+if [ -z "$DANGLING_CONTAINERS" ]; then
+  echo "No containers with dangling ancestor images."
+  exit 0
+fi
+
+# Don't force remove running containers
+echo "Removing stopped containers with dangling ancestor images"
+# shellcheck disable=SC2086
+docker container rm --volumes $DANGLING_CONTAINERS
