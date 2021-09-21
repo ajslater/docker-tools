@@ -4,11 +4,11 @@
 # I use this in place of `docker system prune` because I don't want to remove 
 # all stopped containers I only want to remove stopped containers that have
 # dangling ancestors
-
+echo Pruning stopped containers with dangling image ancestors...
 docker-container-prune-dangling
-echo Pruning volumes
+echo Pruning volumes...
 docker volume prune --force
-echo Pruning networks
+echo Pruning networks...
 docker network prune --force
-echo Pruning images
+echo Pruning images...
 docker image prune --force
