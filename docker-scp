@@ -6,7 +6,6 @@ set -euo pipefail
 IMAGE=$1
 REMOTE_HOST=$2
 
-SIZE=$(docker images | rg "$IMAGE" | rev | cut  -d ' ' -f1 | rev)
-PV_SIZE=$(echo "${SIZE%?}" | numfmt --from=iec)
+PV_SIZE=$(docker image inspect "$IMAGE" | jq ".[0].Size")
 
 docker save "$IMAGE" | pv --size "$PV_SIZE" | ssh -C "$REMOTE_HOST" docker load
