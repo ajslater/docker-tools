@@ -14,7 +14,7 @@ docker container prune --filter=ancestor=dangling
 
 Cleanup dangling docker containers, images, volumes, and networks
 
-I use this in place of `docker system prune` because I don't want to remove all stopped containers I only want to remove
+I use this in place of `docker system prune` because I don't want to remove all stopped containers. I want to remove
 stopped containers that have dangling ancestors
 
 ## docker-image-children
@@ -23,4 +23,8 @@ Helps figure out docker image parent child relationships.
 
 ## docker-scp
 
-Simply transfer a docker image from one host to another via ssh. Uses `pv` for a progress bar.
+Transfer a docker image from one host to another via ssh. Uses `pv` for a progress bar.
+
+## docker-image-remove-untagged
+
+Force remove all untagged images

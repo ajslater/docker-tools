@@ -1,0 +1,4 @@
+#!/bin/bash
+set -euo pipefail
+IMAGES=$(docker images | rg ^\<none\> | awk '{print $3}' | tr '\n' ' ')
+docker rmi -f "$IMAGES"
