@@ -8,18 +8,18 @@
 DANGLING_IMAGES=$(docker image ls --format '{{.ID}}' --filter=dangling=true)
 # echo DANGLING_IMAGES="$DANGLING_IMAGES"
 if [ -z "$DANGLING_IMAGES" ]; then
-  echo "No dangling images. So no containers with dangling ancestor images."
-  exit 0
+    echo "No dangling images. So no containers with dangling ancestor images."
+    exit 0
 fi
 for image_id in $DANGLING_IMAGES; do
-  filters="$filters --filter=ancestor=$image_id"
+    filters="$filters --filter=ancestor=$image_id"
 done
 # shellcheck disable=SC2086
 DANGLING_CONTAINERS="$(docker container ls --format '{{.ID}}' $filters)"
 # echo DANGLING_CONTAINERS="$DANGLING_CONTAINERS"
 if [ -z "$DANGLING_CONTAINERS" ]; then
-  echo "No containers with dangling ancestor images."
-  exit 0
+    echo "No containers with dangling ancestor images."
+    exit 0
 fi
 
 # Don't force remove running containers
