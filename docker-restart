@@ -1,0 +1,10 @@
+#!/bin/bash
+set -euo pipefail
+docker-shutdown "$*"
+IS_RUNNING=$(osascript -e 'application "Docker" is running')
+if [ "$IS_RUNNING" = "false" ]; then
+	open --background -a Docker
+	echo "Restarted Docker."
+else
+	echo "Docker still running."
+fi
