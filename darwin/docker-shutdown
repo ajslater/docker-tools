@@ -3,7 +3,7 @@ set -exuo pipefail
 IS_RUNNING=$(osascript -e 'application "Docker" is running')
 if [ "$IS_RUNNING" = "true" ]; then
     if [ "${1:-}" != "-f" ]; then
-        readarray -t CONTAINERS <<<"$(docker ps -q)"
+      CONTAINERS=("$(docker ps -q)")
         if [ ${#CONTAINERS[@]} -eq 0 ]; then
             echo "Stopping all containers..."
             docker stop "${CONTAINERS[@]}"
