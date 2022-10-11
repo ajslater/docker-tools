@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Remove stopped containers with dangling (untagged) ancestor images
 #
 # Replaces a simpler but less dockery one liner that might bug with very simple image tags:

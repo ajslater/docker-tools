@@ -6,4 +6,5 @@ if [ "${1:-}" = "-f" ]; then
     ./fix-lint.sh
 fi
 prettier --check .
-shellcheck -x ./*.sh ./docker*
+shellharden --check ./*.sh ./docker* ./darwin/*
+shellcheck -x ./*.sh ./docker* ./darwin/*
