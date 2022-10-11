@@ -3,7 +3,7 @@
 set -euo pipefail
 PARENT=$1
 ALL=$(docker image ls -q)
-for image in $ALL; do
+for image in "${ALL[@]}"; do
     if docker image history "$image" | grep -q "$PARENT"; then
         echo "$image"
     fi
