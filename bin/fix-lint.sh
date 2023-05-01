@@ -3,4 +3,4 @@
 set -euxo pipefail
 bin/sortignore.sh
 prettier --write .
-shellharden ./bin/*.sh ./docker* ./darwin/docker*
+shellharden --replace ./bin/*.sh ./docker* ./darwin/docker*
