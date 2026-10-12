@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 # Shut down docker desktop
 set -exuo pipefail
-IS_RUNNING=$(osascript -e 'application "Docker" is running')
-if [ "$IS_RUNNING" = "true" ]; then
+docker_running() {
+  [ "$(osascript -e 'application "Docker" is running')" = "true" ]
+}
+if docker_running; then
   if [ "${1-}" != "-f" ]; then
-    CONTAINERS=("$(docker ps -q)")
-    if [ ${#CONTAINERS[@]} -eq 0 ]; then
+    CONTAINERS=()
+    while IFS="" read -r line; do CONTAINERS+=("$line"); done < <(docker ps -q)
+    if [ ${#CONTAINERS[@]} -gt 0 ]; then
       echo "Stopping all containers..."
       docker stop "${CONTAINERS[@]}"
     fi
@@ -13,12 +16,12 @@ if [ "$IS_RUNNING" = "true" ]; then
   echo "Quitting docker..."
   osascript -e 'quit app "Docker"'
   TRIES=0
-  while "$(osascript -e 'application "Docker" is running')" && TRIES -lt 10; do
+  while docker_running && [ "$TRIES" -lt 10 ]; do
     echo "Docker is still running :("
     sleep 1
     TRIES=$((TRIES + 1))
   done
-  if "$(osascript -e 'application "Docker" is running')"; then
+  if docker_running; then
     pkill docker
   fi
 fi

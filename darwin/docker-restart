@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # Restart docker desktop
 set -euo pipefail
-docker-shutdown "$*"
-if [ ! "$(osascript -e 'application "Docker" is running')" ]; then
+docker-shutdown "$@"
+# osascript prints "true" or "false", so compare the text, not emptiness.
+if [ "$(osascript -e 'application "Docker" is running')" = "false" ]; then
   open --background -a Docker
   echo "Restarted Docker."
 else
