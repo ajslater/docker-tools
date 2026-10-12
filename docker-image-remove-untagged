@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Remove euntagged docker images
+# force remove all untagged (<none>) docker images
 set -euo pipefail
 IMAGES=()
 while IFS="" read -r line; do IMAGES+=("$line"); done < <(docker images | rg ^\<none\> | awk '{print $3}')
