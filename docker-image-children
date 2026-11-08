@@ -4,7 +4,7 @@ set -euo pipefail
 PARENT=$1
 # grep without -q reads all input, so docker never gets SIGPIPE under pipefail.
 docker image ls -q | sort -u | while IFS="" read -r image; do
-    if docker image history "$image" | grep -F -- "$PARENT" >/dev/null; then
-        echo "$image"
-    fi
+  if docker image history "$image" | grep -F -- "$PARENT" >/dev/null; then
+    echo "$image"
+  fi
 done

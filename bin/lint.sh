@@ -1,7 +1,10 @@
-#!/bin/bash
-# Lint checks
+#!/usr/bin/env bash
+# Lint the Makefiles and shell scripts
 set -euxo pipefail
-prettier --check .
-shellharden --check ./bin/*.sh ./docker* ./darwin/docker*
-shellcheck -x ./bin/*.sh ./docker* ./darwin/docker*
-bin/roman.sh -i .gitignore .
+
+uvx mbake@latest validate Makefile cfg/*.mk
+
+bin/sh-tools.sh --lint
+
+# Not .prettierignore: it lists *.sh, which would hide every script from roman.
+uv run bin/roman.py -i .shellignore .

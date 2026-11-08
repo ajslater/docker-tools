@@ -1,35 +1,20 @@
-.PHONY: install
-## Install scriptins in ~/bin
-## @category Install
-install:
-	bin/install.sh
+SHELL := /usr/bin/env bash
+DEVENV_SRC := ../devenv
 
-.PHONY: update
-## Update dependencies
-## @category Update
-update:
-	bin/update-deps.sh
+# OVERRIDE_* is read when python.mk is parsed, so set it above the includes.
+# OVERRIDE_BUILD = 1
+# OVERRIDE_PUBLISH = 1
 
-.PHONY: kill-eslint_d
-## Kill eslint daemon
-## @category Lint
-kill-eslint_d:
-	bin/kill-eslint_d.sh
+# include cfg/django.mk
+# include cfg/frontend.mk
+# include cfg/python.mk
+# include cfg/ci.mk
+# include cfg/gha_std.mk
+# include cfg/docker.mk
+# include cfg/docs.mk
+# include cfg/node.mk
+# include cfg/node_root.mk
+include cfg/common.mk
+include cfg/help.mk
 
-.PHONY: fix
-## Fix front and back end lint errors
-## @category Lint
-fix:
-	bin/fix-lint.sh
-
-.PHONY: lint
-## Lint front and back end
-## @category Lint
-lint:
-	bin/lint.sh
-
-.PHONY: all 
-.PHONY: test
-.PHONY: clean
-
-include bin/makefile-help.mk
+.PHONY: all

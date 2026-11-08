@@ -7,24 +7,24 @@
 
 FILTERS=()
 while IFS="" read -r image_id; do
-    FILTERS+=("--filter=ancestor=$image_id")
+  FILTERS+=("--filter=ancestor=$image_id")
 done < <(docker image ls --format '{{.ID}}' --filter=dangling=true)
 if [ ${#FILTERS[@]} -eq 0 ]; then
-    echo "No dangling images. So no containers with dangling ancestor images."
-    exit 0
+  echo "No dangling images. So no containers with dangling ancestor images."
+  exit 0
 fi
 
 # Don't remove running containers: list only stopped ones.
 # Docker ORs filters that share a key and ANDs different keys.
 DANGLING_CONTAINERS=()
 while IFS="" read -r container_id; do
-    DANGLING_CONTAINERS+=("$container_id")
+  DANGLING_CONTAINERS+=("$container_id")
 done < <(docker container ls --all --format '{{.ID}}' \
-    --filter=status=created --filter=status=exited --filter=status=dead \
-    "${FILTERS[@]}")
+  --filter=status=created --filter=status=exited --filter=status=dead \
+  "${FILTERS[@]}")
 if [ ${#DANGLING_CONTAINERS[@]} -eq 0 ]; then
-    echo "No stopped containers with dangling ancestor images."
-    exit 0
+  echo "No stopped containers with dangling ancestor images."
+  exit 0
 fi
 
 echo "Removing stopped containers with dangling ancestor images"
